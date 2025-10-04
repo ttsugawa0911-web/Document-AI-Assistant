@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "7860:7860"
+    volumes:
+      # --- ユーザーによる設定が必要な箇所 ---
+      # 左側のパス "/PATH/TO/YOUR/DOCUMENTS" の部分を、
+      # あなたのPC上の、処理したい書類が入っている「親フォルダ」のフルパスに書き換えてください。
+      # (例: "/Users/yourname/Documents" や "C:/Users/yourname/Documents")
+      # 右側の "/host-docs" はコンテナ内の接続先なので、変更しないでください。
+      - "/PATH/TO/YOUR/DOCUMENTS:/host-docs"
+    depends_on:
+      - chromadb
+
+  chromadb:
+    image: chromadb/chroma:0.4.24
+    ports:
+      - "8000:8000"
